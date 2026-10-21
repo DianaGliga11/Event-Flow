@@ -13,7 +13,7 @@ import java.util.Optional;
 public class TicketRepository {
     private final PostgresConnection postgresConnection;
 
-    public TicketController(PostgresConnection postgresConnection) {
+    public TicketRepository(PostgresConnection postgresConnection) {
         this.postgresConnection = postgresConnection;
     }
 
