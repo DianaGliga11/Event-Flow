@@ -20,8 +20,8 @@ public class CustomerRepository {
     public List<Customer> findAll() {
         String sql = """
                 select customer_id, name, email, created_at
-                from customer
-                order by customer_id
+                from customers
+                order by created_at desc
                 """;
 
         List<Customer> customers = new ArrayList<>();
@@ -41,9 +41,10 @@ public class CustomerRepository {
 
     public Optional<Customer> findById(long customerId) {
         String sql = """
-                select customer_id, name, email, created_at
-                from customer
-                where customer_id = ?
+               select customer_id, name, email, created_at
+               from customers
+               where customer_id = ?
+               order by created_at desc
                 """;
 
         try (Connection connection = mySqlConnection.getConnection();

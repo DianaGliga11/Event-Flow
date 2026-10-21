@@ -20,7 +20,7 @@ public class OrderRepository {
     public List<Order> findAll(){
         String sql = """
                 select order_id, customer_id, total_amount, status, created_at
-                from orders
+                from ticket_orders
                 order by created_at desc
                 """;
 
@@ -41,7 +41,7 @@ public class OrderRepository {
     public Optional<Order> findById(long orderId){
         String sql = """
                 select order_id, customer_id, total_amount, status, created_at
-                from orders
+                from ticket_orders
                 where order_id = ?
                 """;
 

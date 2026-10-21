@@ -26,7 +26,7 @@ public class SeatRepository {
                 select seat_id, event_id, seat_number, price, status
                 from seats
                 where event_id = ?
-                order by seaat_number
+                order by seat_number
                 """;
         List<Seat> seats = new ArrayList<>();
 

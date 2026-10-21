@@ -20,7 +20,7 @@ public class PaymentRepository {
     public List<Payment> findAll() {
         String sql = """
                 select payment_id, order_id, amount, status, created_at
-                from payment
+                from payments
                 order by created_at desc
                 """;
 
@@ -41,7 +41,7 @@ public class PaymentRepository {
     public Optional<Payment> findById(long paymentId) {
         String sql = """
                 select payment_id, order_id, amount, status, created_at
-                from payment
+                from payments
                 where payment_id = ?
                 """;
 
