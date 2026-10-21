@@ -8,11 +8,11 @@ public class Customer {
     private final String email;
     private final LocalDateTime createdAt;
 
-    public Customer(LocalDateTime createdAt, String email, String name, long customerId) {
-        this.createdAt = createdAt;
+    public Customer(long customerId, String email, String name, LocalDateTime createdAt) {
+        this.customerId = customerId;
         this.email = email;
         this.name = name;
-        this.customerId = customerId;
+        this.createdAt = createdAt;
     }
 
     public long getCustomerId() {
