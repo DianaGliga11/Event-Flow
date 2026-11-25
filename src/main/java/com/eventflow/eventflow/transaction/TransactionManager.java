@@ -15,9 +15,18 @@ public class TransactionManager {
 
     private final ConcurrentMap<Long, Transaction> transactions = new ConcurrentHashMap<>();
 
+    private final LockManager lockManager;
+
+    private final UndoLog undoLog;
+
+    public TransactionManager(LockManager lockManager, UndoLog undoLog) {
+        this.lockManager = lockManager;
+        this.undoLog = undoLog;
+    }
     public Transaction beginTransaction() {
         long id = transactionIdGenerator.incrementAndGet();
         long timestamp = timestampGenerator.incrementAndGet();
+
         Transaction transaction = new Transaction(id, timestamp);
         transactions.put(id, transaction);
 
@@ -35,15 +44,25 @@ public class TransactionManager {
     }
 
     public void commitTransaction(long id){
-        Transaction transaction = transactions.get(id);
+        Transaction transaction = getExistingTransaction(id);
+
+        undoLog.clear(id);
+
         transaction.setStatus(TransactionStatus.COMMITTED);
+
+        lockManager.releaseAllLocks(transaction);
 
         System.out.println("[TRANSACTION] Committed: " + id);
     }
 
-    public void rollbackTransaction(long id){
-        Transaction transaction = transactions.get(id);
+    public void abortTransaction(long id){
+        Transaction transaction = getExistingTransaction(id);
+
+        undoLog.rollback(id);
+
         transaction.setStatus(TransactionStatus.ABORTED);
+
+        lockManager.releaseAllLocks(transaction);
 
         System.out.println("[TRANSACTION] Aborted: " + id);
     }
